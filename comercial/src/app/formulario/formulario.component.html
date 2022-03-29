@@ -1,0 +1,50 @@
+<div class="formulario card">
+  <img src="../../assets/Img/logo.png" alt="Logo">
+  <h1 class="display-4">{{ titulo }}</h1>
+  <div *ngIf="responseService" class="alert alert-info">
+    {{ responseService }}
+  </div>  
+  <form #formulario="ngForm">
+
+    <div class="form-floating mb-3">
+      <select id="tipo" [(ngModel)]="tipo" name="tipdoc" #tipdoc="ngModel" class="form-control" required>
+        <option [value]="null">Seleccione una opción</option>
+        <option *ngFor="let tipoDoc of tiposDocumento" [value]="tipoDoc.id">{{tipoDoc.tipo}}-{{tipoDoc.descripcion}}</option>
+      </select>
+      <div class="alert alert-danger" *ngIf="tipdoc.invalid && (tipdoc.dirty || tipdoc.touched)">
+        <div *ngIf="tipdoc.errors.required">Este campo es obligatorio.</div>
+      </div> 
+      <label for="floatingInput">Tipo de Documuento:</label>
+    </div>
+
+    <div class="form-floating mb-3">
+      <input class="form-control" id="numero" name="numero" #num="ngModel"  [(ngModel)]="numero" maxlength="10" placeholder="Número de Identificación" pattern="([0-9]{1,10})" required>
+      <div class="alert alert-danger" *ngIf="num.invalid && (num.dirty || num.touched)">
+        <div *ngIf="num.errors.required">Este campo es obligatorio.</div>
+        <div *ngIf="num.errors.pattern">Solo se pueden ingresar números en este campo.</div>
+      </div>
+      <label for="floatingInput">Número de Identificación:</label>
+    </div>
+
+    <div class="form-floating mb-3">
+      <input class="form-control" type="text" id="email" name="correo" #correo="ngModel" [(ngModel)]="email" placeholder="ejemplo@gmail.com" required email>
+      <div class="alert alert-danger" *ngIf="correo.invalid && (correo.dirty || correo.touched)">
+        <div *ngIf="correo.errors.required">Este campo es obligatorio.</div>
+        <div *ngIf="correo.errors.email">El correo NO tiene una estructura valida</div>
+      </div>
+      <label for="floatingInput">Correo:</label>
+    </div>
+
+    <div class="form-floating mb-3">
+      <input class="form-control" type="text" id="cell" name="cel" #cel="ngModel" [(ngModel)]="cell" maxlength="10" placeholder="Celular" pattern="^(3)([0-9]{9})$"  required>
+      <div class="alert alert-danger" *ngIf="cel.invalid && (cel.dirty || cel.touched)">
+        <div *ngIf="cel.errors.required">Este campo es obligatorio.</div>
+        <div *ngIf="cel.errors.pattern">Solo se pueden ingresar números.<br>Debe iniciar con el número 3 más 9 dígitos.</div>
+      </div>
+      <label for="floatingInput">Celular:</label>
+    </div>
+
+    <button type="button" (click)="crearCliente()"  class="btn btn-primary" [disabled]="!formulario.form.valid">Guardar</button>
+  </form>
+
+</div>
